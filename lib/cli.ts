@@ -4,8 +4,8 @@ import { GridVisClient } from "./Client";
 commander
     .version("1.0.0")
     .arguments("<URL>")
-    .option("-u, --username <username>", "Specify username [admin]", "admin")
-    .option("-p, --password <password>", "Specify password [Janitza]", "Janitza")
+    .option("-u, --username <username>", "Specify username", "admin")
+    .option("-p, --password <password>", "Specify password", "Janitza")
     .parse(process.argv);
 
 async function main() {
@@ -20,7 +20,9 @@ async function main() {
         username: commander.username,
     });
     console.log(await client.fetchGridVisVersion());
-    console.log(await client.projects.list());
+    const projects = await client.projects.list();
+    console.log(projects);
+    console.log(await client.devices.list(projects[0]))
 }
 
 main();

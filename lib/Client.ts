@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { ProjectsEndpoint } from "./project/ProjectsEndpoint";
+import {DevicesEndpoint} from "./device/DevicesEndpoint";
 
 export interface IConfiguration {
     url: string;
@@ -9,6 +10,7 @@ export interface IConfiguration {
 
 export class GridVisClient {
     public projects: ProjectsEndpoint;
+    public devices: DevicesEndpoint;
     private readonly client: AxiosInstance;
     constructor(configuration: IConfiguration) {
         this.client = axios.create({
@@ -19,6 +21,7 @@ export class GridVisClient {
             baseURL: configuration.url,
         });
         this.projects = new ProjectsEndpoint(this.client);
+        this.devices = new DevicesEndpoint(this.client);
     }
 
     public async fetchGridVisVersion(): Promise<string> {

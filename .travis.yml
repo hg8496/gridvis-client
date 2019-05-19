@@ -1,19 +1,16 @@
 language: node_js
-
 node_js:
 - '8'
 - '10'
 - '12'
-
 after_success: npm run coveralls
-
 deploy:
   provider: npm
   email: hg8496@cstolz.de
   api_key:
-    secure: m1slCS0Lzr7eT0zhX9Fy65vSeGY3uQe4J6sbBI5bssnhju7kobOfGPZ3TTHJFPEGnCE0O5r4NAv6NOnAcQz3iB07YlEfTPAUSThrnXALAYem2aE6zEDgofLtpOSljYr6DgBgsH2DtLSas2ljuB8w4aed3klR2ecAVj4Ok5pwLSALFJ9peRCPuxSClZTGZw/cIuvQybist6FyZrsaGWzbs1+mpiT29lIKQKricu2++Ql0DU9FUxnDfAXg5kBLwpCim3rVbU40nAX10WGePfyA3zCr/o1VvtRhrS/zFm9p8f2rb2RA31RUQDNOSStPLzmpRGbm1bLChoi4d28MEPcTOcFzvavoIStiiIWX5DYCqqjdTepsshG93QDIzeE8x8mCmFejBm1VG+ur1baTy5Ded8BwW9vo4A94GZXioxQKZhkaLTkt3tMCfql90rEyq0n3ief33f9EEfFc+xt+qV7uFsdvl9CTmFYObia842jtuAjHNQyNWiqQsJ874ZJ/eE49oXaYLe9uHJOPNnw2CYsQhJcLf8H3xQAg+VZOy/w49tYoeaeLXkl5tbo9ZYAN7IK77ibhJbqK+ENGovugBcOH0xFbKhHjrfSVxQ1RLYK8++SENfqqcJ1ub25CQzVjYOqfU0quRqROuCRtjZCVGTNWuJSwSX11GUswBb5Tyo9sqHE=
+    secure: AkNknoM5iz4DaY4fLC3X65eKBzk57kDagtgNLbr8teQoFUaUA8rBqQT6WoAsKaC7t1J0n5IpfdgoP6gcEcEwjwImSVhf1bCuSZ4eTyh/5YpZ3HTQmbYvysz8Ed9/ZcxPjwqHQ7QytBP+JezfylZGwAUdhfV7iC8jwtQz4Hs5yZTIKychhybveYwN4lnB09bcSsYjDBk5vdQEAiK2cgPmmAoT1v6TKStlGFDAK2SMHNj6XfaWVLo5zmU94udzv2/kb7485WCJlTp9f8E6flGFmAHcAOatv2cd0tUS09iXOGfNBb7K4pSeB7sAqmO+8O2eIK4PAGwZPHHSaiTgvZQfJe7zQRcKU6gN18EHJ9Q//T9+NnLx0C+Xye7RgRNvGtQ1efQliW2XN4Odxn+TIh688El4ZQg1t9AhSLatTCEU1MVxCljd63rzEg8Y5RSxKfipPkbEv6iKnew4BwXl050+JJ56+kHKDCdLJ7BYXSb+TDpzec+6rZZth/Q7pzdzysjYWhG16dw5uved4iFhbB6bSgoy+pQ8QfU1opyWvaGXBSavwAhfwF2t6suzKgRLZ2F2wqSBDC8jtoT+Jp2tXdSs2b/479W4i/7T1gK7OyxajIlNhw0bVvTX3p8wAxK3X6vrvNKdYtZjnIV17fhtva426xIIRgEjUdl1uaU6jjhGhtY=
   on:
     tags: true
     repo: hg8496/gridvis-client
-    node: 10
+    node: 12
   skip_cleanup: true
