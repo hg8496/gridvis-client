@@ -1,28 +1,30 @@
-import axios, {AxiosInstance} from "axios";
+import axios, { AxiosInstance } from "axios";
+import { ProjectsEndpoint } from "./project/ProjectsEndpoint";
 
-export interface Configuration {
+export interface IConfiguration {
     url: string;
     username?: string;
     password?: string;
 }
 
 export class GridVisClient {
-
-    private _client: AxiosInstance;
-    constructor(configuration: Configuration) {
-        this._client = axios.create({
+    public projects: ProjectsEndpoint;
+    private readonly client: AxiosInstance;
+    constructor(configuration: IConfiguration) {
+        this.client = axios.create({
             auth: {
                 password: configuration.password || "Janitza",
                 username: configuration.username || "admin",
             },
             baseURL: configuration.url,
         });
+        this.projects = new ProjectsEndpoint(this.client);
     }
 
-    async fetchGridVisVersion() {
+    public async fetchGridVisVersion(): Promise<string> {
         let result = "";
         try {
-            const answer = await this._client.get('/rest/common/info/version/full');
+            const answer = await this.client.get("/rest/common/info/version/full");
             result = answer.data.value;
         } catch (e) {
             console.log(e);
