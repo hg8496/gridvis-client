@@ -1,4 +1,4 @@
-import {IProject} from "..";
+import { IProject } from "..";
 
 export interface IDevice {
     connectionString?: string;

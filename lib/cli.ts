@@ -22,7 +22,14 @@ async function main() {
     console.log(await client.fetchGridVisVersion());
     const projects = await client.projects.list();
     console.log(projects);
-    console.log(await client.devices.list(projects[0]))
+    const devices = await client.devices.list(projects[0]);
+    console.log(devices);
+    const values = await client.values.list(projects[0], devices[0]);
+    const frequency = values.find(value => value.valueType.value === "Frequency");
+    console.log(frequency);
+    if (frequency) {
+        console.log(await client.values.getValues(projects[0], devices[0], frequency, "NAMED_Today", "NAMED_Today"));
+    }
 }
 
 main();
