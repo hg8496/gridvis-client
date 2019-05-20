@@ -4,6 +4,7 @@ import { getProjectId, IProject } from "../project";
 import { ITimedValue } from "./ITimedValue";
 import { IValueDescription } from "./IValueDescription";
 import { IValueList } from "./IValueList";
+import { RESTException } from "../RESTException";
 
 export class HistoricalValuesEndpoint {
     constructor(private client: AxiosInstance) {}
@@ -34,9 +35,13 @@ export class HistoricalValuesEndpoint {
             getHistoricalValuesURL(projectId, deviceId) +
             `/${value.valueType.value}/${value.valueType.type}/${value.timebase}`;
         const response = await this.client.get(url, { params: { start, end } });
-        response.data.values.forEach((tvalue: ITimedValue) => {
-            values.push({ ...tvalue });
-        });
+        if (response.status === 200) {
+            response.data.values.forEach((tvalue: ITimedValue) => {
+                values.push({ ...tvalue });
+            });
+        } else if (response.status >= 400) {
+            throw new RESTException(response.status, response.statusText);
+        }
         return result;
     }
 }

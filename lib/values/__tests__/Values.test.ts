@@ -1,26 +1,29 @@
 import axios from "axios";
 import { HistoricalValuesEndpoint } from "../HistoricalValuesEndpoint";
+import { RESTException } from "../../RESTException";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.create.mockReturnValue(mockedAxios);
 
+const VT = {
+    online: false,
+    valueType: {
+        type: "Overall",
+        unit: "m³/GTZ",
+        valueName: "result",
+        typeName: "result",
+        value: "UserDefined",
+    },
+    timebase: 3600,
+    id: 0,
+};
+
 test("list by device ID", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
             value: [
-                {
-                    online: false,
-                    valueType: {
-                        type: "Overall",
-                        unit: "m³/GTZ",
-                        valueName: "result",
-                        typeName: "result",
-                        value: "UserDefined",
-                    },
-                    timebase: 3600,
-                    id: 0,
-                },
+                VT,
                 {
                     online: false,
                     valueType: { type: "L1", unit: "m^3", valueName: "A", typeName: "A", value: "UserDefined" },
@@ -45,18 +48,7 @@ test("list by device", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
             value: [
-                {
-                    online: false,
-                    valueType: {
-                        type: "Overall",
-                        unit: "m³/GTZ",
-                        valueName: "result",
-                        typeName: "result",
-                        value: "UserDefined",
-                    },
-                    timebase: 3600,
-                    id: 0,
-                },
+                VT,
                 {
                     online: false,
                     valueType: { type: "L1", unit: "m^3", valueName: "A", typeName: "A", value: "UserDefined" },
@@ -79,6 +71,7 @@ test("list by device", async () => {
 
 test("list by device ID", async () => {
     mockedAxios.get.mockResolvedValue({
+        status: 200,
         data: {
             values: [
                 {
@@ -106,23 +99,27 @@ test("list by device ID", async () => {
         },
     } as any);
     const historicalValuesEndpoint = new HistoricalValuesEndpoint(mockedAxios);
-    const result = await historicalValuesEndpoint.getValues(
-        "JanHome",
-        1,
-        {
-            online: false,
-            valueType: {
-                type: "Overall",
-                unit: "m³/GTZ",
-                valueName: "result",
-                typeName: "result",
-                value: "UserDefined",
-            },
-            timebase: 3600,
-            id: 0,
-        },
-        "",
-        "",
-    );
+    const result = await historicalValuesEndpoint.getValues("JanHome", 1, VT, "", "");
     expect(result.values.length).toBe(3);
+});
+
+test("list by device ID no content", async () => {
+    mockedAxios.get.mockResolvedValue({
+        status: 204,
+        data: "",
+    } as any);
+    const historicalValuesEndpoint = new HistoricalValuesEndpoint(mockedAxios);
+    const result = await historicalValuesEndpoint.getValues("JanHome", 1, VT, "", "");
+    expect(result.values.length).toBe(0);
+});
+
+test("list by device ID internal error", async () => {
+    mockedAxios.get.mockResolvedValue({
+        status: 500,
+        statusText: "Internal server error",
+    } as any);
+    const historicalValuesEndpoint = new HistoricalValuesEndpoint(mockedAxios);
+    expect(historicalValuesEndpoint.getValues("JanHome", 1, VT, "", "")).rejects.toThrow(
+        new RESTException(500, "Internal server error"),
+    );
 });
