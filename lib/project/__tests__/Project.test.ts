@@ -1,23 +1,25 @@
 import axios from "axios";
+import { RESTException } from "../..";
 import { ProjectsEndpoint } from "../ProjectsEndpoint";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.create.mockReturnValue(mockedAxios);
 
+const PROJECT = {
+    displayStatus: "Bereit",
+    name: "JanHome",
+    numberOfDevices: 5,
+    path: "/opt/GridVisProjects/JanHome",
+    status: "Ready",
+};
+
 test("list", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
-            project: [
-                {
-                    status: "Ready",
-                    path: "/opt/GridVisProjects/JanHome",
-                    numberOfDevices: 5,
-                    displayStatus: "Bereit",
-                    name: "JanHome",
-                },
-            ],
+            project: [PROJECT],
         },
+        status: 200,
     } as any);
     const project = new ProjectsEndpoint(mockedAxios);
     const result = await project.list();
@@ -26,13 +28,7 @@ test("list", async () => {
 
 test("get for name", async () => {
     mockedAxios.get.mockResolvedValue({
-        data: {
-            status: "Ready",
-            path: "/opt/GridVisProjects/JanHome",
-            numberOfDevices: 5,
-            displayStatus: "Bereit",
-            name: "JanHome",
-        },
+        data: PROJECT,
     } as any);
     const project = new ProjectsEndpoint(mockedAxios);
     const result = await project.get("JanHome");
@@ -41,21 +37,29 @@ test("get for name", async () => {
 
 test("get for project", async () => {
     mockedAxios.get.mockResolvedValue({
-        data: {
-            status: "Ready",
-            path: "/opt/GridVisProjects/JanHome",
-            numberOfDevices: 5,
-            displayStatus: "Bereit",
-            name: "JanHome",
-        },
+        data: PROJECT,
     } as any);
     const project = new ProjectsEndpoint(mockedAxios);
-    const result = await project.get({
-        name: "JanHome",
-        displayStatus: "",
-        numberOfDevices: 0,
-        path: "",
-        status: "Ready",
-    });
+    const result = await project.get(PROJECT);
     expect(result.name).toBe("JanHome");
+});
+
+test("fail with internal server error", async () => {
+    mockedAxios.get.mockResolvedValue({
+        data: "",
+        status: 500,
+        statusText: "Internal server error",
+    } as any);
+    const project = new ProjectsEndpoint(mockedAxios);
+    await expect(project.list()).rejects.toThrow(new RESTException(500, "Internal server error"));
+});
+
+test("Return empty response", async () => {
+    mockedAxios.get.mockResolvedValue({
+        data: "",
+        status: 204,
+    } as any);
+    const project = new ProjectsEndpoint(mockedAxios);
+    const result = await project.list();
+    expect(result.length).toBe(0);
 });
