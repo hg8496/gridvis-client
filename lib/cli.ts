@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as commander from "commander";
 import { GridVisClient } from "./Client";
 
