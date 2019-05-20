@@ -1,10 +1,10 @@
 import { AxiosInstance } from "axios";
 import { getDeviceId, IDevice } from "../device";
 import { getProjectId, IProject } from "../project";
+import { RESTException } from "../RESTException";
 import { ITimedValue } from "./ITimedValue";
 import { IValueDescription } from "./IValueDescription";
 import { IValueList } from "./IValueList";
-import { RESTException } from "../RESTException";
 
 export class HistoricalValuesEndpoint {
     constructor(private client: AxiosInstance) {}
