@@ -6,6 +6,6 @@ export interface IDevice {
     id: number;
     name: string;
     project?: IProject;
-    serialNumber?: string;
+    serialNr?: string;
     type: string;
 }
