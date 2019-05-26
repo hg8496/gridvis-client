@@ -1,6 +1,6 @@
 {
   "name": "@hg8496/gridvis-client",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A library to access all GridVis data",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,6 +25,9 @@
   "files": [
     "dist"
   ],
+  "directories": {
+    "lib": "dist"
+  },
   "bin": {
     "gridvis-client": "./dist/cli.js"
   },
