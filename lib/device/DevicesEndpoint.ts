@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import { getProjectId, IProject } from "../project";
-import { IDevice } from "./IDevice";
-import { IConnectionTest } from "./IConnectionTest";
-import { getDeviceId } from "./index";
 import { RESTException } from "../RESTException";
+import { IConnectionTest } from "./IConnectionTest";
+import { IDevice } from "./IDevice";
+import { getDeviceId } from "./index";
 
 export class DevicesEndpoint {
     constructor(private client: AxiosInstance) {}
@@ -24,11 +24,11 @@ export class DevicesEndpoint {
         const response = await this.client.get(`rest/1/projects/${projectId}/devices/${deviceID}/connectiontest`);
         if (response.status === 200) {
             return {
-                status: response.data.status,
-                statusMessage: response.data.statusMsg,
                 firmware: response.data.firmware,
                 hardware: response.data.hardware,
                 serialNr: response.data.serialNumber,
+                status: response.data.status,
+                statusMessage: response.data.statusMsg,
             };
         } else {
             throw new RESTException(response.status, response.statusText);
