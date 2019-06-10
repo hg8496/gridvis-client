@@ -5,7 +5,7 @@ jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.create.mockReturnValue(mockedAxios);
 
-test("list by project name", async () => {
+test("list devices by project name", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
             device: [
@@ -57,7 +57,7 @@ test("list by project name", async () => {
     expect(result.length).toBe(5);
 });
 
-test("list by project", async () => {
+test("list devices by project", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
             device: [

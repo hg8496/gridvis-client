@@ -25,6 +25,7 @@ async function main() {
     console.log(projects);
     const devices = await client.devices.list(projects[0]);
     console.log(devices);
+    console.log(await client.devices.connectionTest(projects[0], devices[0]));
     const values = await client.values.list(projects[0], devices[0]);
     const frequency = values.find(value => value.valueType.value === "Frequency");
     console.log(frequency);
