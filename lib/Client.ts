@@ -10,10 +10,10 @@ export interface IConfiguration {
 }
 
 export class GridVisClient {
-    public projects: ProjectsEndpoint;
-    public devices: DevicesEndpoint;
-    public values: HistoricalValuesEndpoint;
-    private readonly client: AxiosInstance;
+    public readonly projects: ProjectsEndpoint;
+    public readonly devices: DevicesEndpoint;
+    public readonly values: HistoricalValuesEndpoint;
+    public readonly client: AxiosInstance;
 
     constructor(configuration: IConfiguration) {
         this.client = axios.create({
