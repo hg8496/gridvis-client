@@ -1,6 +1,6 @@
 {
   "name": "@hg8496/gridvis-client",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "A library to access all GridVis data",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,15 +35,15 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.11",
-    "@types/node": "^11.13.13",
-    "coveralls": "^3.0.4",
-    "jest": "^24.7.1",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^11.13.19",
+    "coveralls": "^3.0.6",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.17.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3"
   },
   "repository": {
     "type": "git",
