@@ -103,13 +103,13 @@ test("list by device ID", async () => {
     expect(result.values.length).toBe(3);
 });
 
-test("list by device ID no content", async () => {
+test("list by device ID no content and timezone", async () => {
     mockedAxios.get.mockResolvedValue({
         status: 204,
         data: "",
     } as any);
     const historicalValuesEndpoint = new HistoricalValuesEndpoint(mockedAxios);
-    const result = await historicalValuesEndpoint.getValues("JanHome", 1, VT, "", "");
+    const result = await historicalValuesEndpoint.getValues("JanHome", 1, VT, "", "", "myTZ");
     expect(result.values.length).toBe(0);
 });
 
