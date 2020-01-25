@@ -31,7 +31,6 @@ export class HistoricalValuesEndpoint {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);
         const values = [] as ITimedValue[];
-        const result = { valueDescription: value, values };
         const url =
             getHistoricalValuesURL(projectId, deviceId) +
             `/${value.valueType.value}/${value.valueType.type}/${value.timebase}`;
@@ -43,7 +42,7 @@ export class HistoricalValuesEndpoint {
         } else if (response.status >= 400) {
             throw new RESTException(response.status, response.statusText);
         }
-        return result;
+        return { valueDescription: value, values };
     }
 }
 
