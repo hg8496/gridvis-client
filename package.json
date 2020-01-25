@@ -19,8 +19,8 @@
   "author": "hg8496@cstolz.de",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.0",
-    "commander": "^2.20.0"
+    "axios": "^0.19.2",
+    "commander": "^2.20.3"
   },
   "files": [
     "dist"
@@ -35,15 +35,15 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
-    "@types/node": "^11.13.19",
-    "coveralls": "^3.0.6",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^11.15.4",
+    "coveralls": "^3.0.9",
     "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.3.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.7.5"
   },
   "repository": {
     "type": "git",
