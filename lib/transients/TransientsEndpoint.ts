@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
-import { getProjectId, IProject } from "../project";
 import { getDeviceId, IDevice } from "../device";
+import { getProjectId, IProject } from "../project";
 import { RESTException } from "../RESTException";
 import { ITransient } from "./ITransient";
 

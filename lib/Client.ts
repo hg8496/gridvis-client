@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { DevicesEndpoint } from "./device/DevicesEndpoint";
 import { ProjectsEndpoint } from "./project/ProjectsEndpoint";
-import { HistoricalValuesEndpoint } from "./values/HistoricalValuesEndpoint";
 import { TransientsEndpoint } from "./transients/TransientsEndpoint";
+import { HistoricalValuesEndpoint } from "./values/HistoricalValuesEndpoint";
 
 export interface IConfiguration {
     url: string;
