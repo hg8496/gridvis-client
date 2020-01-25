@@ -63,8 +63,7 @@ test("list transients for yesterday", async () => {
 
 test("list transients for yesterday no content", async () => {
     mockedAxios.get.mockResolvedValue({
-        data: {
-        },
+        data: {},
         status: 204,
     } as any);
     const transientsEndpoint = new TransientsEndpoint(mockedAxios);
@@ -74,8 +73,7 @@ test("list transients for yesterday no content", async () => {
 
 test("list transients for yesterday not found", async () => {
     mockedAxios.get.mockResolvedValue({
-        data: {
-        },
+        data: {},
         status: 404,
         statusText: "Not found",
     } as any);
@@ -87,8 +85,7 @@ test("list transients for yesterday not found", async () => {
 
 test("list transients for yesterday not found with timezone", async () => {
     mockedAxios.get.mockResolvedValue({
-        data: {
-        },
+        data: {},
         status: 404,
         statusText: "Not found",
     } as any);

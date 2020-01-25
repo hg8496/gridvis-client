@@ -32,7 +32,7 @@ async function main() {
     if (frequency) {
         console.log(await client.values.getValues(projects[0], devices[0], frequency, "NAMED_Today", "NAMED_Today"));
     }
-    console.log(await client.transients.getTransients(projects[0], devices[0], "NAMED_ThisYear", "NAMED_Today"))
+    console.log(await client.transients.getTransients(projects[0], devices[0], "NAMED_ThisYear", "NAMED_Today"));
 }
 
 main();
