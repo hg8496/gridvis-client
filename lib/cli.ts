@@ -111,7 +111,10 @@ async function main() {
             .arguments("<deviceNameOrSerialOrId>")
             .action(events),
     );
-
+    if(process.argv.length <= 2) {
+        program.outputHelp();
+        return;
+    }
     await program.parseAsync(process.argv);
 }
 
