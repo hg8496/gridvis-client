@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 import * as commander from "commander";
 import { GridVisClient } from "./Client";
+import { EventTypes } from "./events/IEvents";
 
 commander
-    .version("1.0.0")
+    .version("1.0.20")
     .arguments("<URL>")
     .option("-u, --username <username>", "Specify username", "admin")
     .option("-p, --password <password>", "Specify password", "Janitza")
+    .option("-s, --start <time>", "Specify start time for queries", "NAMED_Today")
+    .option("-e, --end <time>", "Specify nd time for queries", "NAMED_Today")
     .parse(process.argv);
 
 async function main() {
@@ -30,9 +33,24 @@ async function main() {
     const frequency = values.find(value => value.valueType.value === "Frequency");
     console.log(frequency);
     if (frequency) {
-        console.log(await client.values.getValues(projects[0], devices[0], frequency, "NAMED_Today", "NAMED_Today"));
+        console.log(await client.values.getValues(projects[0], devices[0], frequency, commander.start, commander.end));
     }
-    console.log(await client.transients.getTransients(projects[0], devices[0], "NAMED_ThisYear", "NAMED_Today"));
+    console.log(await client.transients.getTransients(projects[0], devices[0], commander.start, commander.end));
+    try {
+        console.log(
+            (
+                await client.events.getEvents(
+                    projects[0],
+                    devices[0],
+                    [EventTypes.VoltageOver, EventTypes.VoltageUnder],
+                    commander.start,
+                    commander.end,
+                )
+            ).length,
+        );
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 main();
