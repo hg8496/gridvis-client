@@ -12,7 +12,7 @@ export enum EventTypes {
 
 type EventTypeStrings = keyof typeof EventTypes;
 
-export interface IEvents {
+export interface IEvent {
     startTime: number;
     endTime: number;
     eventType: EventTypeStrings;

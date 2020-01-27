@@ -3,7 +3,8 @@ import * as commander from "commander";
 import { Command } from "commander";
 import { GridVisClient } from "./Client";
 import { IDevice } from "./device";
-import { EventTypes } from "./events/IEvents";
+import { EventTypes, IEvent } from "./events/IEvent";
+import { ITransient } from "./transients/ITransient";
 
 function setupDefaultArguments(command: Command): Command {
     return command
@@ -64,17 +65,33 @@ async function deviceFinder(url: string, project: string, deviceIdent: string, c
         console.log(e);
     }
 }
+type Counter = Map<string, number>;
+
+function output(counter: Counter): void {
+    counter.forEach((value, type) => { console.log(`${type}: ${value}`)});
+}
 
 async function transients(url: string, projectName: string, deviceIdent: string, command: Command) {
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
-        console.log(await client.transients.getTransients(projectName, device, command.start, command.end));
+        const reducer = (current: Counter, trans: ITransient): Counter => {
+            const counter = current.get(trans.type);
+            current.set(trans.type, counter ? counter +1: 1);
+            return current;
+        }
+        const typeCount = (await client.transients.getTransients(projectName, device, command.start, command.end)).reduce<Counter>(reducer, new Map());
+        output(typeCount);
     });
 }
 
 async function events(url: string, projectName: string, deviceIdent: string, command: Command) {
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
-        console.log(
-            await client.events.getEvents(projectName, device, [EventTypes.VoltageOver], command.start, command.end),
+        const reducer = (current: Counter, evt: IEvent): Counter => {
+            const counter = current.get(evt.eventType);
+            current.set(evt.eventType, counter ? counter +1: 1);
+            return current;
+        }
+        output(
+            (await client.events.getEvents(projectName, device, [EventTypes.VoltageOver, EventTypes.VoltageUnder], command.start, command.end)).reduce<Counter>(reducer, new Map())
         );
     });
 }
@@ -98,7 +115,7 @@ async function main() {
 
     addTimeOptions(
         setupDefaultArguments(program.command("transients"))
-            .description("List all transients of a device in a given time")
+            .description("Count transients of a device in a given time")
             .arguments("<projectName>")
             .arguments("<deviceNameOrSerialOrId>")
             .action(transients),
@@ -106,7 +123,7 @@ async function main() {
 
     addTimeOptions(
         setupDefaultArguments(program.command("events"))
-            .description("List all events of a device in a given time")
+            .description("Counts events of a device in a given time")
             .arguments("<projectName>")
             .arguments("<deviceNameOrSerialOrId>")
             .action(events),

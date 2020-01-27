@@ -3,7 +3,7 @@ import * as qs from "qs";
 import { getDeviceId, IDevice } from "../device";
 import { getProjectId, IProject } from "../project";
 import { RESTException } from "../RESTException";
-import { EventTypes, IEvents } from "./IEvents";
+import { EventTypes, IEvent } from "./IEvent";
 
 export class EventsEndpoint {
     constructor(private client: AxiosInstance) {}
@@ -15,10 +15,10 @@ export class EventsEndpoint {
         start: string,
         end: string,
         timezone: string = "UTC",
-    ): Promise<IEvents[]> {
+    ): Promise<IEvent[]> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);
-        const result = [] as IEvents[];
+        const result = [] as IEvent[];
         const url = getEventsURL(projectId, deviceId);
         const typeStrings = types.map(value => EventTypes[value]);
         const response = await this.client.get(url, {
@@ -26,7 +26,7 @@ export class EventsEndpoint {
             paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" }),
         });
         if (response.status === 200) {
-            response.data.event.forEach((event: IEvents) => {
+            response.data.event.forEach((event: IEvent) => {
                 result.push({ ...event });
             });
         } else if (response.status >= 400) {
