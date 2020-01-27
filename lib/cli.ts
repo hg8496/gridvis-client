@@ -68,17 +68,21 @@ async function deviceFinder(url: string, project: string, deviceIdent: string, c
 type Counter = Map<string, number>;
 
 function output(counter: Counter): void {
-    counter.forEach((value, type) => { console.log(`${type}: ${value}`)});
+    counter.forEach((value, type) => {
+        console.log(`${type}: ${value}`);
+    });
 }
 
 async function transients(url: string, projectName: string, deviceIdent: string, command: Command) {
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
         const reducer = (current: Counter, trans: ITransient): Counter => {
             const counter = current.get(trans.type);
-            current.set(trans.type, counter ? counter +1: 1);
+            current.set(trans.type, counter ? counter + 1 : 1);
             return current;
-        }
-        const typeCount = (await client.transients.getTransients(projectName, device, command.start, command.end)).reduce<Counter>(reducer, new Map());
+        };
+        const typeCount = (
+            await client.transients.getTransients(projectName, device, command.start, command.end)
+        ).reduce<Counter>(reducer, new Map());
         output(typeCount);
     });
 }
@@ -87,11 +91,19 @@ async function events(url: string, projectName: string, deviceIdent: string, com
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
         const reducer = (current: Counter, evt: IEvent): Counter => {
             const counter = current.get(evt.eventType);
-            current.set(evt.eventType, counter ? counter +1: 1);
+            current.set(evt.eventType, counter ? counter + 1 : 1);
             return current;
-        }
+        };
         output(
-            (await client.events.getEvents(projectName, device, [EventTypes.VoltageOver, EventTypes.VoltageUnder], command.start, command.end)).reduce<Counter>(reducer, new Map())
+            (
+                await client.events.getEvents(
+                    projectName,
+                    device,
+                    [EventTypes.VoltageOver, EventTypes.VoltageUnder],
+                    command.start,
+                    command.end,
+                )
+            ).reduce<Counter>(reducer, new Map()),
         );
     });
 }
@@ -128,7 +140,7 @@ async function main() {
             .arguments("<deviceNameOrSerialOrId>")
             .action(events),
     );
-    if(process.argv.length <= 2) {
+    if (process.argv.length <= 2) {
         program.outputHelp();
         return;
     }
