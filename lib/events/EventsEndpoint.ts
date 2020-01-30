@@ -8,6 +8,15 @@ import { EventTypes, IEvent } from "./IEvent";
 export class EventsEndpoint {
     constructor(private client: AxiosInstance) {}
 
+    /**
+     * Returns all events in the specified timeframe of the given types.
+     * @param project The name or the instance of a project.
+     * @param device The id or the instance of a device.
+     * @param types A list of {@link EventTypes} to fetch from server.
+     * @param start The start time in format of the GridVis REST interface. For Example ```NAMED_Today```
+     * @param end The end time in format of the GridVis REST interface.
+     * @param timezone Supports all Java timezones
+     */
     public async getEvents(
         project: string | IProject,
         device: number | IDevice,
