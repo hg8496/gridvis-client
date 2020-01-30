@@ -26,7 +26,7 @@ export class GridVisClient {
                 username: configuration.username || "admin",
             },
             baseURL: configuration.url,
-            headers: {dataType: "jsonp"}
+            headers: { dataType: "jsonp" },
         });
         this.projects = new ProjectsEndpoint(this.client);
         this.devices = new DevicesEndpoint(this.client);
