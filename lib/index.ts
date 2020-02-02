@@ -1,4 +1,12 @@
 export { GridVisClient } from "./Client";
-export { IProject } from "./project/IProject";
-export { IDevice } from "./device/IDevice";
 export { RESTException } from "./RESTException";
+
+export { IProject } from "./project";
+
+export { IDevice, IConnectionTest } from "./device";
+
+export { IEvent } from "./events";
+
+export { ITransient } from "./transients";
+
+export { IValueType, IValueDescription, ITimedValue, IValueList } from "./values";

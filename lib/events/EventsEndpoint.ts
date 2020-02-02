@@ -39,7 +39,6 @@ export class EventsEndpoint {
                 result.push({ ...event });
             });
         } else if (response.status >= 400) {
-            console.log(response.request);
             throw new RESTException(response.status, response.statusText);
         }
         return result;

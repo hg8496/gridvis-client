@@ -8,13 +8,23 @@ import { getDeviceId } from "./index";
 export class DevicesEndpoint {
     constructor(private client: AxiosInstance) {}
 
+    /** Lists all devices from the given project.
+     *  @returns An possibly empty list of devices
+     *  @throws A RestException for unknown projects and all other errors.
+     */
     public async list(project: string | IProject): Promise<IDevice[]> {
         const projectId = getProjectId(project);
         const result = [] as IDevice[];
         const response = await this.client.get(`rest/1/projects/${projectId}/devices`);
-        response.data.device.forEach((device: IDevice) => {
-            result.push({ ...device });
-        });
+        if (response.status >= 200 && response.status <= 299) {
+            if (response.data.device) {
+                response.data.device.forEach((device: IDevice) => {
+                    result.push({ ...device });
+                });
+            }
+        } else {
+            throw new RESTException(response.status, response.statusText, response.data);
+        }
         return result;
     }
 
@@ -31,7 +41,7 @@ export class DevicesEndpoint {
                 statusMessage: response.data.statusMsg,
             };
         } else {
-            throw new RESTException(response.status, response.statusText);
+            throw new RESTException(response.status, response.statusText, response.data);
         }
     }
 }

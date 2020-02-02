@@ -45,14 +45,8 @@ test("list transients for yesterday", async () => {
         },
         status: 200,
     } as any);
-    const transientsEndpoint = new EventsEndpoint(mockedAxios);
-    const result = await transientsEndpoint.getEvents(
-        "default",
-        1,
-        [EventTypes.VoltageOver],
-        "NAMED_Today",
-        "Named_Today",
-    );
+    const eventsEndpoint = new EventsEndpoint(mockedAxios);
+    const result = await eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today");
     expect(result.length).toBe(3);
 });
 
@@ -61,14 +55,8 @@ test("list transients for yesterday no content", async () => {
         data: {},
         status: 204,
     } as any);
-    const transientsEndpoint = new EventsEndpoint(mockedAxios);
-    const result = await transientsEndpoint.getEvents(
-        "default",
-        1,
-        [EventTypes.VoltageOver],
-        "NAMED_Today",
-        "Named_Today",
-    );
+    const eventsEndpoint = new EventsEndpoint(mockedAxios);
+    const result = await eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today");
     expect(result.length).toBe(0);
 });
 
@@ -78,9 +66,9 @@ test("list transients for yesterday not found", async () => {
         status: 404,
         statusText: "Not found",
     } as any);
-    const transientsEndpoint = new EventsEndpoint(mockedAxios);
+    const eventsEndpoint = new EventsEndpoint(mockedAxios);
     await expect(
-        transientsEndpoint.getEvents(
+        eventsEndpoint.getEvents(
             "default",
             1,
             [EventTypes.VoltageOver, EventTypes.VoltageUnder],
@@ -96,8 +84,8 @@ test("list transients for yesterday not found with timezone", async () => {
         status: 404,
         statusText: "Not found",
     } as any);
-    const transientsEndpoint = new EventsEndpoint(mockedAxios);
+    const eventsEndpoint = new EventsEndpoint(mockedAxios);
     await expect(
-        transientsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today", "MyTZ"),
+        eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today", "MyTZ"),
     ).rejects.toThrow(new RESTException(404, "Not found"));
 });

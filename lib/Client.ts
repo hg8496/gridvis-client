@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
-import { DevicesEndpoint } from "./device/DevicesEndpoint";
+import { DevicesEndpoint } from "./device";
 import { EventsEndpoint } from "./events/EventsEndpoint";
-import { ProjectsEndpoint } from "./project/ProjectsEndpoint";
+import { ProjectsEndpoint } from "./project";
 import { TransientsEndpoint } from "./transients/TransientsEndpoint";
 import { HistoricalValuesEndpoint } from "./values/HistoricalValuesEndpoint";
 
@@ -26,6 +26,9 @@ export class GridVisClient {
                 username: configuration.username || "admin",
             },
             baseURL: configuration.url,
+            validateStatus: status => {
+                return true; // Reject only if the status code is greater than or equal to 500
+            },
         });
         this.projects = new ProjectsEndpoint(this.client);
         this.devices = new DevicesEndpoint(this.client);

@@ -35,6 +35,10 @@ async function projects(url: string, command: Command) {
     console.log(await setupClient(url, command).projects.list());
 }
 
+async function showProject(url: string, projectName: string, command: Command) {
+    console.log(await setupClient(url, command).projects.get(projectName));
+}
+
 async function devices(url: string, projectName: string, command: Command) {
     try {
         console.log(await setupClient(url, command).devices.list(projectName));
@@ -119,6 +123,11 @@ async function main() {
     setupDefaultArguments(program.command("projects"))
         .description("List all projects")
         .action(projects);
+
+    setupDefaultArguments(program.command("project"))
+        .description("Fetch a single project")
+        .arguments("<projectName>")
+        .action(showProject);
 
     setupDefaultArguments(program.command("devices"))
         .description("List all devices of a project")

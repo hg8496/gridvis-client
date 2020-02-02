@@ -29,15 +29,27 @@ test("list", async () => {
 test("get for name", async () => {
     mockedAxios.get.mockResolvedValue({
         data: PROJECT,
+        status: 200,
     } as any);
     const project = new ProjectsEndpoint(mockedAxios);
     const result = await project.get("JanHome");
     expect(result.name).toBe("JanHome");
 });
 
+test("get for name not found", async () => {
+    mockedAxios.get.mockResolvedValue({
+        data: "Project not found",
+        status: 404,
+        statusText: "Not found",
+    } as any);
+    const project = new ProjectsEndpoint(mockedAxios);
+    await expect(project.get("Unknown")).rejects.toThrow(new RESTException(404, "Not found", "Project not found"));
+});
+
 test("get for project", async () => {
     mockedAxios.get.mockResolvedValue({
         data: PROJECT,
+        status: 200,
     } as any);
     const project = new ProjectsEndpoint(mockedAxios);
     const result = await project.get(PROJECT);

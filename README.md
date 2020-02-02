@@ -17,3 +17,12 @@ main().then((version) => {
     console.log(version)
 });
 ```
+
+## CLI
+A cli is also included. To obtain some information or statistics.
+To see statistic of last months events for a given device call:
+```bash
+$ gridvis-client events https://gridvis-energy.com DemoProject 92 -s NAMED_LastYear -e NAMED_LastYear
+VoltageUnder: 7
+
+```

@@ -1,5 +1,9 @@
 export class RESTException extends Error {
-    constructor(public httpStatusCode: number, public httpStatusMessage: string) {
-        super(`${httpStatusCode} - ${httpStatusMessage}`);
+    constructor(
+        public readonly httpStatusCode: number,
+        public readonly httpStatusMessage: string,
+        public readonly serverMessage: string = "",
+    ) {
+        super(`${httpStatusCode} - ${httpStatusMessage} - ${serverMessage}`);
     }
 }
