@@ -65,7 +65,7 @@ test("list by device", async () => {
         },
     } as any);
     const historicalValuesEndpoint = new HistoricalValuesEndpoint(mockedAxios);
-    const result = await historicalValuesEndpoint.list("JanHome", { id: 1, type: "", name: "" });
+    const result = await historicalValuesEndpoint.list("JanHome", { id: 1, type: "", typeDisplayName: "", name: "" });
     expect(result.length).toBe(3);
 });
 
