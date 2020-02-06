@@ -7,6 +7,8 @@ export { IDevice, IConnectionTest } from "./device";
 
 export { EventTypes, IEvent } from "./events";
 
+export { ISequence, SequenceTypes } from "./sequences";
+
 export { ITransient } from "./transients";
 
 export { IValueType, IValueDescription, ITimedValue, IValueList } from "./values";

@@ -4,6 +4,7 @@ import { Command } from "commander";
 import { GridVisClient } from "./Client";
 import { IDevice } from "./device";
 import { EventTypes, IEvent } from "./events";
+import { SequenceTypes } from "./sequences/ISequence";
 import { ITransient } from "./transients";
 
 function setupDefaultArguments(command: Command): Command {
@@ -124,6 +125,27 @@ async function transients(url: string, projectName: string, deviceIdent: string,
     });
 }
 
+async function sequences(url: string, projectName: string, deviceIdent: string, command: Command) {
+    await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
+        let seq = await client.sequences.getSequences(
+            projectName,
+            device,
+            SequenceTypes.Waveform,
+            command.start,
+            command.end,
+        );
+        console.log(`Waveforms: ${seq.length}`);
+        seq = await client.sequences.getSequences(
+            projectName,
+            device,
+            SequenceTypes.EffectiveValues,
+            command.start,
+            command.end,
+        );
+        console.log(`EffectiveValues: ${seq.length}`);
+    });
+}
+
 async function events(url: string, projectName: string, deviceIdent: string, command: Command) {
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
         const reducer = (current: Counter, evt: IEvent): Counter => {
@@ -181,6 +203,14 @@ async function main() {
             .arguments("<projectName>")
             .arguments("<deviceNameOrSerialOrId>")
             .action(transients),
+    );
+
+    addTimeOptions(
+        setupDefaultArguments(program.command("sequences"))
+            .description("Count sequences of a device in a given time frame")
+            .arguments("<projectName>")
+            .arguments("<deviceNameOrSerialOrId>")
+            .action(sequences),
     );
 
     setupDefaultArguments(program.command("recordings"))

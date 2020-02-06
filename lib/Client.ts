@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import { DevicesEndpoint } from "./device";
 import { EventsEndpoint } from "./events/EventsEndpoint";
 import { ProjectsEndpoint } from "./project";
+import { SequencesEndpoint } from "./sequences/SequencesEndpoint";
 import { TransientsEndpoint } from "./transients/TransientsEndpoint";
 import { HistoricalValuesEndpoint } from "./values/HistoricalValuesEndpoint";
 
@@ -12,12 +13,13 @@ export interface IConfiguration {
 }
 
 export class GridVisClient {
-    public readonly projects: ProjectsEndpoint;
-    public readonly devices: DevicesEndpoint;
-    public readonly values: HistoricalValuesEndpoint;
     public readonly client: AxiosInstance;
-    public readonly transients: TransientsEndpoint;
+    public readonly devices: DevicesEndpoint;
     public readonly events: EventsEndpoint;
+    public readonly projects: ProjectsEndpoint;
+    public readonly sequences: SequencesEndpoint;
+    public readonly transients: TransientsEndpoint;
+    public readonly values: HistoricalValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
         this.client = axios.create({
@@ -30,11 +32,12 @@ export class GridVisClient {
                 return true; // Reject only if the status code is greater than or equal to 500
             },
         });
-        this.projects = new ProjectsEndpoint(this.client);
         this.devices = new DevicesEndpoint(this.client);
-        this.values = new HistoricalValuesEndpoint(this.client);
-        this.transients = new TransientsEndpoint(this.client);
         this.events = new EventsEndpoint(this.client);
+        this.projects = new ProjectsEndpoint(this.client);
+        this.sequences = new SequencesEndpoint(this.client);
+        this.transients = new TransientsEndpoint(this.client);
+        this.values = new HistoricalValuesEndpoint(this.client);
     }
 
     public async fetchGridVisVersion(): Promise<string> {
