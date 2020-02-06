@@ -40,6 +40,7 @@
     "@types/node": "^11.15.5",
     "@types/qs": "^6.9.0",
     "coveralls": "^3.0.9",
+    "husky": "^4.2.1",
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "ts-jest": "^25.1.0",
@@ -60,5 +61,10 @@
   "bugs": {
     "url": "https://github.com/hg8496/gridvis-client/issues"
   },
-  "homepage": "https://github.com/hg8496/gridvis-client#readme"
+  "homepage": "https://github.com/hg8496/gridvis-client#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm test"
+    }
+  }
 }
