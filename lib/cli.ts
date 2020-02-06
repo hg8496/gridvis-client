@@ -3,8 +3,8 @@ import * as commander from "commander";
 import { Command } from "commander";
 import { GridVisClient } from "./Client";
 import { IDevice } from "./device";
-import { EventTypes, IEvent } from "./events/IEvent";
-import { ITransient } from "./transients/ITransient";
+import { EventTypes, IEvent } from "./events";
+import { ITransient } from "./transients";
 
 function setupDefaultArguments(command: Command): Command {
     return command
@@ -77,6 +77,39 @@ function output(counter: Counter): void {
     });
 }
 
+async function recordings(url: string, projectName: string, deviceIdent: string, command: Command) {
+    await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
+        const valDesc = await client.values.list(projectName, device);
+        for (const vd of valDesc) {
+            console.log(vd);
+        }
+    });
+}
+
+async function values(
+    url: string,
+    projectName: string,
+    deviceIdent: string,
+    value: string,
+    type: string,
+    timebase: string,
+    command: Command,
+) {
+    await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
+        const valDesc = await client.values.list(projectName, device);
+        for (const vd of valDesc) {
+            if (vd.valueType.value === value && vd.valueType.type === type && "" + vd.timebase === timebase) {
+                const vList = await client.values.getValues(projectName, device, vd, command.start, command.end);
+                console.log("[");
+                for (const v of vList.values) {
+                    console.log(v, ",");
+                }
+                console.log("]");
+            }
+        }
+    });
+}
+
 async function transients(url: string, projectName: string, deviceIdent: string, command: Command) {
     await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
         const reducer = (current: Counter, trans: ITransient): Counter => {
@@ -135,19 +168,36 @@ async function main() {
         .action(devices);
 
     addTimeOptions(
+        setupDefaultArguments(program.command("events"))
+            .description("Counts events of a device in a given time frame")
+            .arguments("<projectName>")
+            .arguments("<deviceNameOrSerialOrId>")
+            .action(events),
+    );
+
+    addTimeOptions(
         setupDefaultArguments(program.command("transients"))
-            .description("Count transients of a device in a given time")
+            .description("Count transients of a device in a given time frame")
             .arguments("<projectName>")
             .arguments("<deviceNameOrSerialOrId>")
             .action(transients),
     );
 
+    setupDefaultArguments(program.command("recordings"))
+        .description("List all recorded values of a device")
+        .arguments("<projectName>")
+        .arguments("<deviceNameOrSerialOrId>")
+        .action(recordings);
+
     addTimeOptions(
-        setupDefaultArguments(program.command("events"))
-            .description("Counts events of a device in a given time")
+        setupDefaultArguments(program.command("values"))
+            .description("prints values of a device in a given time frame")
             .arguments("<projectName>")
             .arguments("<deviceNameOrSerialOrId>")
-            .action(events),
+            .arguments("<value>")
+            .arguments("<type>")
+            .arguments("<timebase>")
+            .action(values),
     );
     if (process.argv.length <= 2) {
         program.outputHelp();
