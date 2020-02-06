@@ -5,7 +5,7 @@ export { IProject } from "./project";
 
 export { IDevice, IConnectionTest } from "./device";
 
-export { IEvent } from "./events";
+export { EventTypes, IEvent } from "./events";
 
 export { ITransient } from "./transients";
 

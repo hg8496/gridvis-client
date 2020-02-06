@@ -1,1 +1,1 @@
-export { IEvent } from "./IEvent";
+export { EventTypes, IEvent } from "./IEvent";
