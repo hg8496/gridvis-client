@@ -6,6 +6,7 @@ import { IDevice } from "./device";
 import { EventTypes, IEvent } from "./events";
 import { SequenceTypes } from "./sequences/ISequence";
 import { ITransient } from "./transients";
+import { IValueType } from "./values";
 
 function setupDefaultArguments(command: Command): Command {
     return command
@@ -108,6 +109,29 @@ async function values(
                 console.log("]");
             }
         }
+    });
+}
+
+async function onlinevalues(
+    url: string,
+    projectName: string,
+    deviceIdent: string,
+    valuesComSep: string,
+    command: Command,
+) {
+    const vNames = valuesComSep.split(",");
+    await deviceFinder(url, projectName, deviceIdent, command, async (client, device) => {
+        const valTypes = await client.values.listOnline(projectName, device);
+        const useValTypes = [] as IValueType[];
+        for (const vt of valTypes) {
+            for (const vName of vNames) {
+                if (vt.value === vName) {
+                    useValTypes.push(vt);
+                }
+            }
+        }
+        const result = await client.values.getOnlineValues(projectName, device, useValTypes);
+        console.log(result);
     });
 }
 
@@ -229,6 +253,13 @@ async function main() {
             .arguments("<timebase>")
             .action(values),
     );
+
+    setupDefaultArguments(program.command("online"))
+        .description("Fetch online values of a device")
+        .arguments("<projectName>")
+        .arguments("<deviceNameOrSerialOrId>")
+        .arguments("<valuesCommaSep>")
+        .action(onlinevalues);
     if (process.argv.length <= 2) {
         program.outputHelp();
         return;

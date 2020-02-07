@@ -4,7 +4,7 @@ import { EventsEndpoint } from "./events/EventsEndpoint";
 import { ProjectsEndpoint } from "./project";
 import { SequencesEndpoint } from "./sequences/SequencesEndpoint";
 import { TransientsEndpoint } from "./transients/TransientsEndpoint";
-import { HistoricalValuesEndpoint } from "./values/HistoricalValuesEndpoint";
+import { ValuesEndpoint } from "./values/ValuesEndpoint";
 
 export interface IConfiguration {
     url: string;
@@ -19,7 +19,7 @@ export class GridVisClient {
     public readonly projects: ProjectsEndpoint;
     public readonly sequences: SequencesEndpoint;
     public readonly transients: TransientsEndpoint;
-    public readonly values: HistoricalValuesEndpoint;
+    public readonly values: ValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
         this.client = axios.create({
@@ -37,7 +37,7 @@ export class GridVisClient {
         this.projects = new ProjectsEndpoint(this.client);
         this.sequences = new SequencesEndpoint(this.client);
         this.transients = new TransientsEndpoint(this.client);
-        this.values = new HistoricalValuesEndpoint(this.client);
+        this.values = new ValuesEndpoint(this.client);
     }
 
     public async fetchGridVisVersion(): Promise<string> {
