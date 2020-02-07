@@ -101,11 +101,7 @@ async function values(
         for (const vd of valDesc) {
             if (vd.valueType.value === value && vd.valueType.type === type && "" + vd.timebase === timebase) {
                 const vList = await client.values.getValues(projectName, device, vd, command.start, command.end);
-                console.log("[");
-                for (const v of vList.values) {
-                    console.log(v, ",");
-                }
-                console.log("]");
+                console.log(JSON.stringify(vList));
             }
         }
     });
