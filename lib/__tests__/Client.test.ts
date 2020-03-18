@@ -16,7 +16,7 @@ test("getVersion", async () => {
 
 test("getVersion Fail", async () => {
     mockedAxios.get.mockRejectedValue({} as any);
-    const client = new GridVisClient({ url: "" });
+    const client = new GridVisClient({ url: "", username: "", password: "" });
     const result = await client.fetchGridVisVersion();
     expect(result).toBe("");
 });

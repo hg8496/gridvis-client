@@ -22,10 +22,13 @@ export class GridVisClient {
     public readonly values: ValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
-        const auth = configuration.password && configuration.username ? {
-            password: configuration.password,
-            username: configuration.username,
-        } : undefined;
+        const auth =
+            configuration.password && configuration.username
+                ? {
+                      password: configuration.password,
+                      username: configuration.username,
+                  }
+                : undefined;
         this.client = axios.create({
             auth,
             baseURL: configuration.url,
