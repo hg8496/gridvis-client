@@ -10,6 +10,7 @@ export interface IConfiguration {
     url: string;
     username?: string;
     password?: string;
+    noBaseAuth?: boolean;
 }
 
 export class GridVisClient {
@@ -22,11 +23,13 @@ export class GridVisClient {
     public readonly values: ValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
+        const noBaseAuth = configuration.noBaseAuth ?? false;
+        const auth = noBaseAuth ? undefined : {
+            password: configuration.password || "Janitza",
+            username: configuration.username || "admin",
+        };
         this.client = axios.create({
-            auth: {
-                password: configuration.password || "Janitza",
-                username: configuration.username || "admin",
-            },
+            auth,
             baseURL: configuration.url,
             validateStatus: status => {
                 return true; // Reject only if the status code is greater than or equal to 500
