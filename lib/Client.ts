@@ -10,7 +10,6 @@ export interface IConfiguration {
     url: string;
     username?: string;
     password?: string;
-    noBaseAuth?: boolean;
 }
 
 export class GridVisClient {
@@ -23,11 +22,10 @@ export class GridVisClient {
     public readonly values: ValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
-        const noBaseAuth = configuration.noBaseAuth ?? false;
-        const auth = noBaseAuth ? undefined : {
-            password: configuration.password || "Janitza",
+        const auth = configuration.password && configuration.username ? {
+            password: configuration.password,
             username: configuration.username || "admin",
-        };
+        } : undefined;
         this.client = axios.create({
             auth,
             baseURL: configuration.url,
