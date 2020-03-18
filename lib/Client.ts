@@ -22,11 +22,15 @@ export class GridVisClient {
     public readonly values: ValuesEndpoint;
 
     constructor(configuration: IConfiguration) {
+        const auth =
+            configuration.password && configuration.username
+                ? {
+                      password: configuration.password,
+                      username: configuration.username,
+                  }
+                : undefined;
         this.client = axios.create({
-            auth: {
-                password: configuration.password || "Janitza",
-                username: configuration.username || "admin",
-            },
+            auth,
             baseURL: configuration.url,
             validateStatus: status => {
                 return true; // Reject only if the status code is greater than or equal to 500
