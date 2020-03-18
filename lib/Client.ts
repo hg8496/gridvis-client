@@ -24,7 +24,7 @@ export class GridVisClient {
     constructor(configuration: IConfiguration) {
         const auth = configuration.password && configuration.username ? {
             password: configuration.password,
-            username: configuration.username || "admin",
+            username: configuration.username,
         } : undefined;
         this.client = axios.create({
             auth,
