@@ -21,7 +21,7 @@ export interface ISequence {
     /** The number of values before the reason happened that triggered the recording. */
     pretrigger: number;
     /** The sample rate of the squence. */
-    samplerate: number;
+    sampleRate: number;
     /** The values that make up the sequnce. */
     values: number[];
     /** The value the sequence represents. */

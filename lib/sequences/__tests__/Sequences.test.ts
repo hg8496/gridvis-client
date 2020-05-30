@@ -1,7 +1,7 @@
 import axios from "axios";
-import { SequencesEndpoint } from "../SequencesEndpoint";
 import { RESTException } from "../../RESTException";
 import { SequenceTypes } from "../ISequence";
+import { SequencesEndpoint } from "../SequencesEndpoint";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -16,7 +16,7 @@ test("list sequences for yesterday", async () => {
                     reason: "Event",
                     startTime: 1579128608568987000,
                     endTime: 1579128608568987000,
-                    samplerate: 40000,
+                    sampleRate: 40000,
                     pretrigger: 500,
                     values: [1, 2, 3, 4],
                     valueType: {
@@ -33,7 +33,7 @@ test("list sequences for yesterday", async () => {
                     startTime: 1579444399959290000,
                     endTime: 1579444399959290000,
                     pretrigger: 500,
-                    samplerate: 100,
+                    sampleRate: 100,
                     values: [7, 8, 9, 0],
                     valueType: {
                         type: "L1",
@@ -48,7 +48,7 @@ test("list sequences for yesterday", async () => {
                     startTime: 1579875866401336000,
                     endTime: 1579875866401336000,
                     pretrigger: 500,
-                    samplerate: 40000,
+                    sampleRate: 40000,
                     values: [1, 2, 3, 2, 1, 0, -1, -2],
                     valueType: {
                         type: "L1",
