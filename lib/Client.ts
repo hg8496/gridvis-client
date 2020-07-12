@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { DevicesEndpoint } from "./device";
 import { EventsEndpoint } from "./events/EventsEndpoint";
+import { OnlineRecorderEndpoint } from "./onlinerecorder/OnlineRecorderEndpoint";
 import { ProjectsEndpoint } from "./project";
 import { SequencesEndpoint } from "./sequences/SequencesEndpoint";
 import { TransientsEndpoint } from "./transients/TransientsEndpoint";
@@ -16,6 +17,7 @@ export class GridVisClient {
     public readonly client: AxiosInstance;
     public readonly devices: DevicesEndpoint;
     public readonly events: EventsEndpoint;
+    public readonly onlinerecorder: OnlineRecorderEndpoint;
     public readonly projects: ProjectsEndpoint;
     public readonly sequences: SequencesEndpoint;
     public readonly transients: TransientsEndpoint;
@@ -38,6 +40,7 @@ export class GridVisClient {
         });
         this.devices = new DevicesEndpoint(this.client);
         this.events = new EventsEndpoint(this.client);
+        this.onlinerecorder = new OnlineRecorderEndpoint(this.client);
         this.projects = new ProjectsEndpoint(this.client);
         this.sequences = new SequencesEndpoint(this.client);
         this.transients = new TransientsEndpoint(this.client);

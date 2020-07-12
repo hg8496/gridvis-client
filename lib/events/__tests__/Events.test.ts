@@ -1,6 +1,6 @@
 import axios from "axios";
-import { EventsEndpoint } from "../EventsEndpoint";
 import { RESTException } from "../../RESTException";
+import { EventsEndpoint } from "../EventsEndpoint";
 import { EventTypes } from "../IEvent";
 
 jest.mock("axios");
