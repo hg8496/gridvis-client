@@ -29,7 +29,7 @@ export class OnlineRecorderEndpoint {
     ): Promise<void> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);
-        const data = JSON.stringify({ onlineRecordingValue });
+        const data = { onlineRecordingValue };
         const response = await this.client.post(getOnlineRecorderSettingsURL(projectId, deviceId), data);
         if (response.status >= 400) {
             throw new RESTException(response.status, response.statusText);
