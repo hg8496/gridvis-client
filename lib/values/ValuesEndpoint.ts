@@ -41,6 +41,7 @@ export class ValuesEndpoint {
         start: string,
         end: string,
         timezone: string = "UTC",
+        online = false,
     ): Promise<IValueList> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);
@@ -48,7 +49,7 @@ export class ValuesEndpoint {
         const url =
             getHistoricalValuesURL(projectId, deviceId) +
             `/${value.valueType.value}/${value.valueType.type}/${value.timebase}`;
-        const response = await this.client.get(url, { params: { start, end, timezone } });
+        const response = await this.client.get(url, { params: { start, end, timezone, online } });
         if (response.status === 200) {
             response.data.values.forEach((tvalue: ITimedValue) => {
                 values.push({ ...tvalue });

@@ -17,7 +17,6 @@ test("list online recordings no content", async () => {
     expect(result.length).toBe(0);
 });
 
-
 test("list online recordings", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {
@@ -30,10 +29,10 @@ test("list online recordings", async () => {
                         unit: "V",
                         value: "U_Effective",
                         valueName: "Spannung effektiv",
-                    }
-                }
-            ] as IRecordedValue[]
-        } ,
+                    },
+                },
+            ] as IRecordedValue[],
+        },
         status: 200,
     } as any);
     const endpoint = new OnlineRecorderEndpoint(mockedAxios);
