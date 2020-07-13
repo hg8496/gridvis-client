@@ -19,8 +19,8 @@ const recordingSetting = {
                 valueName: "Spannung effektiv",
             },
         },
-    ] as IRecordedValue[]
-}
+    ] as IRecordedValue[],
+};
 
 test("list online recordings no content", async () => {
     mockedAxios.get.mockResolvedValue({
@@ -48,7 +48,7 @@ test("list online recordings with failure", async () => {
         status: 401,
         statusText: "Not authorized",
     } as any);
-    const endpoint = new OnlineRecorderEndpoint(mockedAxios);;
+    const endpoint = new OnlineRecorderEndpoint(mockedAxios);
     await expect(endpoint.fetchSetting("default", 1)).rejects.toThrow(new RESTException(401, "Not authorized"));
 });
 
@@ -58,6 +58,8 @@ test("set online recordings with failure", async () => {
         status: 401,
         statusText: "Not authorized",
     } as any);
-    const endpoint = new OnlineRecorderEndpoint(mockedAxios);;
-    await expect(endpoint.writeSetting("default", 1, recordingSetting.onlineRecordingValue)).rejects.toThrow(new RESTException(401, "Not authorized"));
+    const endpoint = new OnlineRecorderEndpoint(mockedAxios);
+    await expect(endpoint.writeSetting("default", 1, recordingSetting.onlineRecordingValue)).rejects.toThrow(
+        new RESTException(401, "Not authorized"),
+    );
 });
