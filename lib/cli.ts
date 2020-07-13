@@ -52,7 +52,8 @@ async function devices(url: string, projectName: string, command: Command) {
 async function findDevice(client: GridVisClient, projectName: string, deviceIdent: string) {
     const allDevices = await client.devices.list(projectName);
     return allDevices.find(
-        dev => dev.name.indexOf(deviceIdent) >= 0 || dev.serialNr === deviceIdent || dev.id.toString() === deviceIdent,
+        (dev) =>
+            dev.name.indexOf(deviceIdent) >= 0 || dev.serialNr === deviceIdent || dev.id.toString() === deviceIdent,
     );
 }
 
@@ -191,13 +192,9 @@ async function main() {
     const program = new commander.Command();
     program.version("1.0.20");
 
-    setupDefaultArguments(program.command("version"))
-        .description("Returns GridVis version")
-        .action(version);
+    setupDefaultArguments(program.command("version")).description("Returns GridVis version").action(version);
 
-    setupDefaultArguments(program.command("projects"))
-        .description("List all projects")
-        .action(projects);
+    setupDefaultArguments(program.command("projects")).description("List all projects").action(projects);
 
     setupDefaultArguments(program.command("project"))
         .description("Fetch a single project")
@@ -263,4 +260,4 @@ async function main() {
     await program.parseAsync(process.argv);
 }
 
-main().catch(e => console.log(e));
+main().catch((e) => console.log(e));

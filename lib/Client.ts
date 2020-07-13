@@ -34,7 +34,7 @@ export class GridVisClient {
         this.client = axios.create({
             auth,
             baseURL: configuration.url,
-            validateStatus: status => {
+            validateStatus: (status) => {
                 return true; // Reject only if the status code is greater than or equal to 500
             },
         });

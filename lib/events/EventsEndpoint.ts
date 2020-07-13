@@ -29,10 +29,10 @@ export class EventsEndpoint {
         const deviceId = getDeviceId(device);
         const result = [] as IEvent[];
         const url = getEventsURL(projectId, deviceId);
-        const typeStrings = types.map(value => EventTypes[value]);
+        const typeStrings = types.map((value) => EventTypes[value]);
         const response = await this.client.get(url, {
             params: { start, end, type: typeStrings, timezone },
-            paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" }),
+            paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
         });
         if (response.status === 200) {
             response.data.event.forEach((event: IEvent) => {

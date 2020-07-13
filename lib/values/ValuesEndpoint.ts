@@ -70,10 +70,10 @@ export class ValuesEndpoint {
         const deviceId = getDeviceId(device);
         const url = getOnlineValuesURL(projectId);
         const valueStrings = [] as string[];
-        values.forEach(value => valueStrings.push(`${deviceId};${value.value};${value.type}`));
+        values.forEach((value) => valueStrings.push(`${deviceId};${value.value};${value.type}`));
         const response = await this.client.get(url, {
             params: { value: valueStrings },
-            paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" }),
+            paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
         });
         if (response.status === 200) {
             values.forEach((vType: IValueType) => {
