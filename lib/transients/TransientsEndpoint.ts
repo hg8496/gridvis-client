@@ -12,7 +12,7 @@ export class TransientsEndpoint {
         device: number | IDevice,
         start: string,
         end: string,
-        timezone: string = "UTC",
+        timezone = "UTC",
     ): Promise<ITransient[]> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);

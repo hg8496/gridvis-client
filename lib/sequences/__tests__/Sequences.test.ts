@@ -61,7 +61,7 @@ test("list sequences for yesterday", async () => {
             ],
         },
         status: 200,
-    } as any);
+    });
     const sequencesEndpoint = new SequencesEndpoint(mockedAxios);
     const result = await sequencesEndpoint.getSequences(
         "default",
@@ -77,7 +77,7 @@ test("list sequences for yesterday no content", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {},
         status: 204,
-    } as any);
+    });
     const sequencesEndpoint = new SequencesEndpoint(mockedAxios);
     const result = await sequencesEndpoint.getSequences(
         "default",
@@ -94,7 +94,7 @@ test("list sequences for yesterday not found", async () => {
         data: {},
         status: 404,
         statusText: "Not found",
-    } as any);
+    });
     const sequencesEndpoint = new SequencesEndpoint(mockedAxios);
     await expect(
         sequencesEndpoint.getSequences("default", 1, SequenceTypes.Waveform, "NAMED_Today", "Named_Today"),
@@ -106,7 +106,7 @@ test("list sequences for yesterday not found with timezone", async () => {
         data: {},
         status: 404,
         statusText: "Not found",
-    } as any);
+    });
     const sequencesEndpoint = new SequencesEndpoint(mockedAxios);
     await expect(
         sequencesEndpoint.getSequences(

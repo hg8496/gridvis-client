@@ -34,8 +34,9 @@ export class GridVisClient {
         this.client = axios.create({
             auth,
             baseURL: configuration.url,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             validateStatus: (status) => {
-                return true; // Reject only if the status code is greater than or equal to 500
+                return true; // Let caller check for errors
             },
         });
         this.devices = new DevicesEndpoint(this.client);

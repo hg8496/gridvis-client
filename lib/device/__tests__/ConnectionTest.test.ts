@@ -16,7 +16,7 @@ test("simple succeeding connection test", async () => {
             hardware: "-001 Ethernet differential current Profibus",
             statusMsg: "Connection test successful",
         },
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     const result = await devicesEndpoint.connectionTest("JanHome", 1);
     expect(result.serialNr).toBe("7000-0084");
@@ -27,7 +27,7 @@ test("fail with internal server error", async () => {
         data: "",
         status: 500,
         statusText: "Internal server error",
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     await expect(devicesEndpoint.connectionTest("test", 1)).rejects.toThrow(
         new RESTException(500, "Internal server error"),

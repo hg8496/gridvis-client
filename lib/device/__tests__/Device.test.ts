@@ -53,7 +53,7 @@ test("list devices by project name", async () => {
             ],
         },
         status: 200,
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     const result = await devicesEndpoint.list("JanHome");
     expect(result.length).toBe(5);
@@ -106,7 +106,7 @@ test("list devices by project", async () => {
             ],
         },
         status: 200,
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     const result = await devicesEndpoint.list({ name: "JanHome", status: "", displayStatus: "" });
     expect(result.length).toBe(5);
@@ -116,7 +116,7 @@ test("list devices no content", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {},
         status: 204,
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     const result = await devicesEndpoint.list({ name: "JanHome", status: "", displayStatus: "" });
     expect(result.length).toBe(0);
@@ -127,7 +127,7 @@ test("list for unknown project throws RestException", async () => {
         data: "Project not found for name: unknown",
         status: 404,
         statusText: "Not found",
-    } as any);
+    });
     const devicesEndpoint = new DevicesEndpoint(mockedAxios);
     await expect(devicesEndpoint.list("unknown")).rejects.toThrow(
         new RESTException(404, "Not found", "Project not found for name: unknown"),

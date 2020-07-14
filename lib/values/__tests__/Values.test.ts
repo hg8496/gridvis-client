@@ -69,7 +69,7 @@ test("list by device ID", async () => {
                 },
             ],
         },
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.list("JanHome", 1);
     expect(result.length).toBe(3);
@@ -94,7 +94,7 @@ test("list by device", async () => {
                 },
             ],
         },
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.list("JanHome", { id: 1, type: "", typeDisplayName: "", name: "" });
     expect(result.length).toBe(3);
@@ -105,13 +105,13 @@ test("list online by device ID", async () => {
         data: {
             valuetype: [VT_FREQUENCY, ...VT_VOLTAGES],
         },
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.listOnline("JanHome", 1);
     expect(result.length).toBe(4);
 });
 
-test("list by device ID", async () => {
+test("Fetch values", async () => {
     mockedAxios.get.mockResolvedValue({
         status: 200,
         data: {
@@ -139,29 +139,29 @@ test("list by device ID", async () => {
                 },
             ],
         },
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.getValues("JanHome", 1, VT, "", "");
     expect(result.values.length).toBe(3);
 });
 
-test("list by device ID no content and timezone", async () => {
+test("list values no content and timezone", async () => {
     mockedAxios.get.mockResolvedValue({
         status: 204,
         data: "",
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.getValues("JanHome", 1, VT, "", "", "myTZ");
     expect(result.values.length).toBe(0);
 });
 
-test("list by device ID internal error", async () => {
+test("list values internal error", async () => {
     mockedAxios.get.mockResolvedValue({
         status: 500,
         statusText: "Internal server error",
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
-    expect(valuesEndpoint.getValues("JanHome", 1, VT, "", "")).rejects.toThrow(
+    await expect(valuesEndpoint.getValues("JanHome", 1, VT, "", "")).rejects.toThrow(
         new RESTException(500, "Internal server error"),
     );
 });
@@ -190,19 +190,19 @@ test("fetch online values", async () => {
     mockedAxios.get.mockResolvedValue({
         data: ONLINE_VALUES,
         status: 200,
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
     const result = await valuesEndpoint.getOnlineValues("JanHome", 1, VT_VOLTAGES);
     expect(result.get(VT_VOLTAGES[0])).toStrictEqual({ value: 231.89686584472656, time: 1581068471029000000 });
 });
 
-test("list by device ID internal error", async () => {
+test("fetch online values internal error", async () => {
     mockedAxios.get.mockResolvedValue({
         status: 500,
         statusText: "Internal server error",
-    } as any);
+    });
     const valuesEndpoint = new ValuesEndpoint(mockedAxios);
-    expect(valuesEndpoint.getOnlineValues("JanHome", 1, VT_VOLTAGES)).rejects.toThrow(
+    await expect(valuesEndpoint.getOnlineValues("JanHome", 1, VT_VOLTAGES)).rejects.toThrow(
         new RESTException(500, "Internal server error"),
     );
 });

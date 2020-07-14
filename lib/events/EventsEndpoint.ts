@@ -23,7 +23,7 @@ export class EventsEndpoint {
         types: EventTypes[],
         start: string,
         end: string,
-        timezone: string = "UTC",
+        timezone = "UTC",
     ): Promise<IEvent[]> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);

@@ -26,7 +26,7 @@ test("list online recordings no content", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {},
         status: 204,
-    } as any);
+    });
     const endpoint = new OnlineRecorderEndpoint(mockedAxios);
     const result = await endpoint.fetchSetting("default", 1);
     expect(result.length).toBe(0);
@@ -36,7 +36,7 @@ test("list online recordings", async () => {
     mockedAxios.get.mockResolvedValue({
         data: recordingSetting,
         status: 200,
-    } as any);
+    });
     const endpoint = new OnlineRecorderEndpoint(mockedAxios);
     const result = await endpoint.fetchSetting("default", 1);
     expect(result.length).toBe(1);
@@ -47,7 +47,7 @@ test("list online recordings with failure", async () => {
         data: {},
         status: 401,
         statusText: "Not authorized",
-    } as any);
+    });
     const endpoint = new OnlineRecorderEndpoint(mockedAxios);
     await expect(endpoint.fetchSetting("default", 1)).rejects.toThrow(new RESTException(401, "Not authorized"));
 });
@@ -57,7 +57,7 @@ test("set online recordings with failure", async () => {
         data: {},
         status: 401,
         statusText: "Not authorized",
-    } as any);
+    });
     const endpoint = new OnlineRecorderEndpoint(mockedAxios);
     await expect(endpoint.writeSetting("default", 1, recordingSetting.onlineRecordingValue)).rejects.toThrow(
         new RESTException(401, "Not authorized"),

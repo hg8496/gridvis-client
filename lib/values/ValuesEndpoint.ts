@@ -40,7 +40,7 @@ export class ValuesEndpoint {
         value: IValueDescription,
         start: string,
         end: string,
-        timezone: string = "UTC",
+        timezone = "UTC",
         online = false,
     ): Promise<IValueList> {
         const projectId = getProjectId(project);

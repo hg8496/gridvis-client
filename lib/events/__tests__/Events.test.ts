@@ -44,7 +44,7 @@ test("list transients for yesterday", async () => {
             ],
         },
         status: 200,
-    } as any);
+    });
     const eventsEndpoint = new EventsEndpoint(mockedAxios);
     const result = await eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today");
     expect(result.length).toBe(3);
@@ -54,7 +54,7 @@ test("list transients for yesterday no content", async () => {
     mockedAxios.get.mockResolvedValue({
         data: {},
         status: 204,
-    } as any);
+    });
     const eventsEndpoint = new EventsEndpoint(mockedAxios);
     const result = await eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today");
     expect(result.length).toBe(0);
@@ -65,7 +65,7 @@ test("list transients for yesterday not found", async () => {
         data: {},
         status: 404,
         statusText: "Not found",
-    } as any);
+    });
     const eventsEndpoint = new EventsEndpoint(mockedAxios);
     await expect(
         eventsEndpoint.getEvents(
@@ -83,7 +83,7 @@ test("list transients for yesterday not found with timezone", async () => {
         data: {},
         status: 404,
         statusText: "Not found",
-    } as any);
+    });
     const eventsEndpoint = new EventsEndpoint(mockedAxios);
     await expect(
         eventsEndpoint.getEvents("default", 1, [EventTypes.VoltageOver], "NAMED_Today", "Named_Today", "MyTZ"),

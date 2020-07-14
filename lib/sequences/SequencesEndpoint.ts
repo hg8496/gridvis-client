@@ -13,7 +13,7 @@ export class SequencesEndpoint {
         type: SequenceTypes,
         start: string,
         end: string,
-        timezone: string = "UTC",
+        timezone = "UTC",
     ): Promise<ISequence[]> {
         const projectId = getProjectId(project);
         const deviceId = getDeviceId(device);
